@@ -37,7 +37,7 @@ public class AddressBook {
     /**
      * Version info of the program.
      */
-    private static final String VERSION = "AddessBook Level 1 - Version 1.0";
+    private static final String VERSION = "AddressBook Level 1 - Version 1.0";
 
     /**
      * A decorative prefix added to the beginning of lines printed by AddressBook
@@ -172,7 +172,7 @@ public class AddressBook {
     /**
      * The path to the file used for storing person data.
      */
-    private static String storageFilePath;
+    private static String STORAGE_FILE_PATH;
 
     /*
      * NOTE : =============================================================
@@ -262,7 +262,7 @@ public class AddressBook {
             exitProgram();
         }
 
-        storageFilePath = filePath;
+        STORAGE_FILE_PATH = filePath;
         createFileIfMissing(filePath);
     }
 
@@ -281,8 +281,8 @@ public class AddressBook {
      */
     private static void setupDefaultFileForStorage() {
         showToUser(MESSAGE_USING_DEFAULT_FILE);
-        storageFilePath = DEFAULT_STORAGE_FILEPATH;
-        createFileIfMissing(storageFilePath);
+        STORAGE_FILE_PATH = DEFAULT_STORAGE_FILEPATH;
+        createFileIfMissing(STORAGE_FILE_PATH);
     }
 
     /**
@@ -327,7 +327,7 @@ public class AddressBook {
      * Assumption: The file exists.
      */
     private static void loadDataFromStorage() {
-        initialiseAddressBookModel(loadPersonsFromFile(storageFilePath));
+        initialiseAddressBookModel(loadPersonsFromFile(STORAGE_FILE_PATH));
     }
 
 
@@ -742,7 +742,7 @@ public class AddressBook {
     private static void savePersonsToFile(ArrayList<HashMap<PersonProperty, String>> persons, String filePath) {
         final ArrayList<String> linesToWrite = encodePersonsToStrings(persons);
         try {
-            Files.write(Paths.get(storageFilePath), linesToWrite);
+            Files.write(Paths.get(STORAGE_FILE_PATH), linesToWrite);
         } catch (IOException ioe) {
             showToUser(String.format(MESSAGE_ERROR_WRITING_TO_FILE, filePath));
             exitProgram();
@@ -763,7 +763,7 @@ public class AddressBook {
      */
     private static void addPersonToAddressBook(HashMap<PersonProperty, String> person) {
         ALL_PERSONS.add(person);
-        savePersonsToFile(getAllPersonsInAddressBook(), storageFilePath);
+        savePersonsToFile(getAllPersonsInAddressBook(), STORAGE_FILE_PATH);
     }
 
     /**
@@ -775,7 +775,7 @@ public class AddressBook {
     private static boolean deletePersonFromAddressBook(HashMap<PersonProperty, String> exactPerson) {
         final boolean changed = ALL_PERSONS.remove(exactPerson);
         if (changed) {
-            savePersonsToFile(getAllPersonsInAddressBook(), storageFilePath);
+            savePersonsToFile(getAllPersonsInAddressBook(), STORAGE_FILE_PATH);
         }
         return changed;
     }
@@ -792,7 +792,7 @@ public class AddressBook {
      */
     private static void clearAddressBook() {
         ALL_PERSONS.clear();
-        savePersonsToFile(getAllPersonsInAddressBook(), storageFilePath);
+        savePersonsToFile(getAllPersonsInAddressBook(), STORAGE_FILE_PATH);
     }
 
     /**
